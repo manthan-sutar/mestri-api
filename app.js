@@ -1,10 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const app = express();
 const PORT = process.env.PORT || 8081;
 var cors = require('cors')
 
 const SocketHelper = require('./helpers/SocketHelper')
+
+const sequelizeCrud = require('express-crud-router-sequelize-v6-connector/lib/index')
+
+const expressCrudRouter = require('express-crud-router/lib/index')
 
 const socketHelper = new SocketHelper();
 
@@ -20,15 +25,27 @@ app.use(
   })
 );
 
+var initModels = require("./models/init-models");
+var models = initModels();
+
+app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
+app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
+app.use(expressCrudRouter.crud('/services_type', sequelizeCrud.default(models.ServiceTypes)))
+
 app.get('/', (req, res)=>{
     res.send("API")
 })
 
 const userRoutes = require('./routes/users')
 const appSettingRoutes = require('./routes/app_settings')
+const jobRoutes = require('./routes/jobs');
 
 app.use('/users',userRoutes)
 app.use('/settings',appSettingRoutes)
+
+
+
+app.use('/jobs',jobRoutes)
 
 server.listen(PORT, () => {
     console.log("Server Running on port "+PORT)
