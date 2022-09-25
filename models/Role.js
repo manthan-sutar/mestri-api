@@ -15,12 +15,10 @@ Role.init(
 	},
 	{
 		sequelize: db,
-		modelName: "roles",
-        timestamps: false,
-        underscored: true
+		modelName: "roles"
 	}
 );
 
-User.belongsTo(Role, {foreignKey: 'role_id'});
+User.belongsTo(Role, {foreignKey: 'roleId'});
 
 module.exports = Role;

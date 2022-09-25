@@ -10,22 +10,21 @@ User.init(
 			type: Sequelize.INTEGER,
 			primaryKey: true,
 		},
-        role_id: {
+        roleId: {
 			type: Sequelize.INTEGER,
 		},
-		login_type: Sequelize.STRING,
+		loginType: Sequelize.STRING,
 		username: Sequelize.STRING,
 		email: Sequelize.STRING,
-		country_code: Sequelize.STRING,
+		countryCode: Sequelize.STRING,
 		phone: Sequelize.STRING,
 		password: Sequelize.STRING,
 	},
 	{
 		sequelize: db,
 		modelName: "users",
-        underscored: true,
 		defaultScope: {
-			attributes: { exclude: ['password','login_type','role_id'] },
+			attributes: { exclude: ['password','loginType','roleId'] },
 		},
 	} 
 	
