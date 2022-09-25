@@ -13,3 +13,4 @@ module.exports = new Sequelize(
   });
 
 
+  // sequelize-auto -o "./models" -d u610117377_mestri_demo -h manthansutar.in -u u610117377_Manthansutar99 -p 5432 -x Mdev932942$ -e mysql

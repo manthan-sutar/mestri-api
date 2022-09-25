@@ -1,23 +1,14 @@
 const express = require("express");
-const Role = require("../models/Role");
-const User = require("../models/User");
+
+var initModels = require("../models/init-models");
+var models = initModels();
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    try {
-        const users = await User.findAll(
-            {
-                include: [
-                    {
-                        model: Role
-                    }
-                ]
-            }
-        );
-        res.json(users)
-    } catch (error) {
-        res.json(error)
-    }
+    const users = await models.Users.findAll();
+    res.json(users);
 });
+
+
 module.exports = router;
