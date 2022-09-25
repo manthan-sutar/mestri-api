@@ -9,7 +9,7 @@ class FileHelper {
         var type = decodedImg.type;
         var extension = mime.getExtension(type);
         var fileName = Date.now() + "_image." + extension;
-        var storage = path == null ? "storage/" : "storage/" + path;
+        var storage = path == null ? "storage/" + fileName : "storage/" + path + fileName;
         try {
             fs.writeFileSync(storage + fileName, imageBuffer, 'utf8');
             return storage;

@@ -25,6 +25,11 @@ function initModels() {
   var Services = _Services(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
 
+  // JobAssigned.hasMany(JobAttachments)
+  Jobs.belongsTo(Users, {foreignKey: "userId"})
+  Jobs.hasOne(JobDetails, {foreignKey: "jobId"})
+  Jobs.hasMany(JobAttachments, {foreignKey: "jobId"})
+  
 
   return {
     Addresses,

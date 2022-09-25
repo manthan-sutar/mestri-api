@@ -69,8 +69,29 @@ router.post("/", async (req, res) => {
 
 });
 
-router.get("/", async (req, res) => {
+router.get("/:userId", async (req, res) => {
+    const userId = req.params.userId
+    try {
+        const jobs = await models.Jobs.findAll(
+            {
+                where: {
+                    userId: userId
+                },
+                include: [
+                    {
+                        model: models.JobDetails
+                    },
+                    {
+                        model: models.JobAttachments
+                    }
+                ]
+            }
+        )
+        res.json(jobs);
 
+    } catch (error) {
+        res.json(error.toString())
+    }
 })
 
 module.exports = router;

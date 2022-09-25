@@ -28,9 +28,6 @@ app.use(
 var initModels = require("./models/init-models");
 var models = initModels();
 
-app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
-app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
-app.use(expressCrudRouter.crud('/services_type', sequelizeCrud.default(models.ServiceTypes)))
 
 app.get('/', (req, res)=>{
     res.send("API")
@@ -40,10 +37,11 @@ const userRoutes = require('./routes/users')
 const appSettingRoutes = require('./routes/app_settings')
 const jobRoutes = require('./routes/jobs');
 
+app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
+app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
+app.use(expressCrudRouter.crud('/services_type', sequelizeCrud.default(models.ServiceTypes)))
 app.use('/users',userRoutes)
 app.use('/settings',appSettingRoutes)
-
-
 
 app.use('/jobs',jobRoutes)
 
