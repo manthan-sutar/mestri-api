@@ -1,28 +1,36 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Jobs', {
+  return sequelize.define('HomescreenSections', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    userId: {
-      type: DataTypes.INTEGER,
+    sectionKey: {
+      type: DataTypes.STRING(100),
       allowNull: false
     },
-    serviceTypeId: {
-      type: DataTypes.INTEGER,
+    enabled: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    statusId: {
-      type: DataTypes.INTEGER,
+    api: {
+      type: DataTypes.STRING(255),
       allowNull: false
+    },
+    apiMethod: {
+      type: DataTypes.STRING(20),
+      allowNull: false
+    },
+    sort: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'jobs',
-    timestamps: true,
+    tableName: 'homescreen_sections',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",

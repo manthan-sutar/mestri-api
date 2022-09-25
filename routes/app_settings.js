@@ -2,46 +2,20 @@ const express = require("express");
 
 const router = express.Router();
 
+var initModels = require("../models/init-models");
+var models = initModels();
+
+
 router.get("/", async (req, res) => {
-        res.json({
-            "application_name": "Mestri",
-            "homescreen_sections": [
-                {
-                    "section_key": "showcase_section",
-                    "enabled": true,
-                    "api": "http:asdasdas",
-                    "api_method": "GET"
-                },
-                {
-                    "section_key": "ads",
-                    "enabled": false
-                },
-                {
-                    "section_key": "services",
-                    "enabled": true,
-                    "api": "http:asdasdas",
-                    "api_method": "GET"
-                },
-                {
-                    "section_key": "popular_mestries",
-                    "enabled": true,
-                    "api": "http:asdasdas",
-                    "api_method": "GET"
-                },
-                {
-                    "section_key": "popular_services",
-                    "enabled": true,
-                    "api": "http:asdasdas",
-                    "api_method": "GET"
-                },
-                {
-                    "section_key": "recent_activities",
-                    "enabled": true,
-                    "api": "http:asdasdas",
-                    "api_method": "GET"
-                }
-            ],
-        })
+    try {
+        const settings = await models.Settings.findOne();
+        const homescreenSections = await models.HomescreenSections.findAll();
+        const settingObject = JSON.parse(JSON.stringify(settings))
+        settingObject['homescreen_sections'] = homescreenSections
+        res.json(settingObject)
+    } catch (error) {
+        res.json(error.toString())
+    }
 });
 
 module.exports = router;

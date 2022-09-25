@@ -2,6 +2,8 @@ const express = require("express");
 const FileHelper = require("../helpers/FileHelper");
 const fileHelper = new FileHelper()
 
+const { Sequelize } = require('sequelize');
+
 var initModels = require("../models/init-models");
 var models = initModels();
 
@@ -28,7 +30,7 @@ router.post("/", async (req, res) => {
         const details = req.body.details;
         details.jobId = newJob.id;
         newJobId = newJob.id
-        
+
         //Check Attachments
 
         var uploadedFiles = []
@@ -83,12 +85,14 @@ router.get("/:userId", async (req, res) => {
                     },
                     {
                         model: models.JobAttachments
+                    },
+                    {
+                        model: models.JobQuotes
                     }
-                ]
+                ],
             }
         )
         res.json(jobs);
-
     } catch (error) {
         res.json(error.toString())
     }

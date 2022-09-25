@@ -18,7 +18,9 @@ const server = require('http').createServer(app)
 
 app.use(cors())
 app.use(bodyParser.json());
-app.use(express.static('storage'))
+app.use(express.static('root')); 
+
+app.use("/storage", express.static("storage")); 
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -36,12 +38,17 @@ app.get('/', (req, res)=>{
 const userRoutes = require('./routes/users')
 const appSettingRoutes = require('./routes/app_settings')
 const jobRoutes = require('./routes/jobs');
+const feedRoutes = require('./routes/feeds');
 
 app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
 app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
 app.use(expressCrudRouter.crud('/services_type', sequelizeCrud.default(models.ServiceTypes)))
+app.use(expressCrudRouter.crud('/job_quotes', sequelizeCrud.default(models.ServiceTypes)))
+app.use(expressCrudRouter.crud('/homescreen_sections', sequelizeCrud.default(models.HomescreenSections)))
+
 app.use('/users',userRoutes)
 app.use('/settings',appSettingRoutes)
+app.use('/feeds',feedRoutes)
 
 app.use('/jobs',jobRoutes)
 
@@ -57,10 +64,10 @@ server.listen(PORT, () => {
 //     //     socket.broadcast.emit("signal",data)
 //     // })
     
-//     // socket.on("users_private_signal", (data) => {
-//     //     console.log(data);
-//     //     socket.to(data.client_id).emit("users_private_signal", data.signal);
-//     // })
+    // socket.on("users_private_signal", (data) => {
+    //     console.log(data);
+    //     socket.to(data.client_id).emit("users_private_signal", data.signal);
+    // })
 
 //     // socket.on("new_order", (data) => {
 //     //     console.log("NEW ORDER");
