@@ -5,7 +5,7 @@ var models = initModels();
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/popular_mestries", async (req, res) => {
     const users = await models.Users.findAll();
     res.json(users);
 });
