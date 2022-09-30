@@ -7,11 +7,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    serviceType: {
+    serviceTypeId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    serviceCategory: {
+    serviceCategoryId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

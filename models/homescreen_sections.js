@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('HomescreenSections', {
+  return sequelize.define('homescreenSections', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,

@@ -38,12 +38,22 @@ function initModels() {
   var Settings = _Settings(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
 
-    ///Job Associations
-  Jobs.belongsTo(Services, {foreignKey: "serviceId"})
-  Jobs.belongsTo(Users, {foreignKey: "userId"})
-  Jobs.hasOne(JobDetails, {foreignKey: "jobId"})
-  Jobs.hasMany(JobAttachments, {foreignKey: "jobId"})
-  Jobs.hasMany(JobQuotes, {foreignKey: "jobId"})
+ ///Job Associations
+ Jobs.belongsTo(Services, {foreignKey: "serviceId"})
+ Services.belongsTo(ServiceTypes,{foreignKey: "serviceTypeId"})
+ Services.belongsTo(ServiceCategories,{foreignKey: "serviceCategoryId"})
+
+
+ Jobs.belongsTo(Users, {foreignKey: "userId"})
+ JobQuotes.belongsTo(Users, {foreignKey: "quoterId"})
+
+ Jobs.belongsTo(JobStatus, {foreignKey: "statusId"})
+ Jobs.hasOne(JobDetails, {foreignKey: "jobId"})
+ Jobs.hasMany(JobAttachments, {foreignKey: "jobId"})
+ Jobs.hasMany(JobQuotes, {foreignKey: "jobId"})
+ Users.belongsTo(Roles, {foreignKey: "roleId"})
+
+//  Users.belongsToMany(JobQuotes, { through: ProjectMembers})
 
   return {
     Addresses,

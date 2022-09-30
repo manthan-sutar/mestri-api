@@ -79,7 +79,15 @@ router.get("/:userId", async (req, res) => {
                 where: {
                     userId: userId
                 },
+                attributes: ["id"],
                 include: [
+                    {
+                        model: models.Users
+                    },
+                    {
+                        model: models.JobStatus,
+                        attributes: ["name"],
+                    },
                     {
                         model: models.JobDetails
                     },
@@ -90,11 +98,49 @@ router.get("/:userId", async (req, res) => {
                         model: models.JobQuotes
                     },
                     {
-                        model: models.Services
-                    }
+                        model: models.Services,
+                        attributes: ["name"],
+                        include: [
+                            {
+                                model: models.ServiceCategories,
+                                attributes: ["name"],
+                            },
+                            {
+                                model: models.ServiceTypes,
+                                attributes: ["name"],
+                            }
+                        ]
+                    },
                 ],
             }
         )
+        res.json(jobs);
+    } catch (error) {
+        res.json(error.toString())
+    }
+})
+
+
+
+router.get("/quotes/:jobId", async (req, res) => {
+    const jobId = req.params.jobId
+    try {
+        const jobs = await models.JobQuotes.findAll({
+            where:{
+                jobId: jobId
+            },
+            include: [
+                {
+                    model: models.Users,
+                    include: [
+                        {
+                            model: models.Roles,
+                            attributes: ["type"]
+                        }
+                    ]
+                }
+            ]
+        })
         res.json(jobs);
     } catch (error) {
         res.json(error.toString())

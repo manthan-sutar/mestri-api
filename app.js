@@ -38,6 +38,7 @@ const userRoutes = require('./routes/users')
 const appSettingRoutes = require('./routes/app_settings')
 const jobRoutes = require('./routes/jobs');
 const feedRoutes = require('./routes/feeds');
+const quoteRoutes = require('./routes/quotes');
 
 app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
 app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
@@ -50,6 +51,7 @@ app.use('/settings',appSettingRoutes)
 app.use('/feeds',feedRoutes)
 
 app.use('/jobs',jobRoutes)
+app.use('/quotes',quoteRoutes)
 
 
 wss.on('listening', () => {
