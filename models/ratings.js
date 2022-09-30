@@ -1,24 +1,32 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('ServiceTypes', {
+  return sequelize.define('Ratings', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    name: {
-      type: DataTypes.STRING(100),
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    icon: {
+    jobId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    rating: {
+      type: DataTypes.DOUBLE,
+      allowNull: false
+    },
+    comment: {
       type: DataTypes.TEXT,
       allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'service_types',
-    timestamps: false,
+    tableName: 'ratings',
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",

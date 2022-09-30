@@ -1,12 +1,17 @@
 var DataTypes = require("sequelize").DataTypes;
 var _Addresses = require("./addresses");
+var _Contractors = require("./contractors");
+var _Contracts = require("./contracts");
 var _HomescreenSections = require("./homescreen_sections");
 var _JobAssigned = require("./job_assigned");
 var _JobAttachments = require("./job_attachments");
 var _JobDetails = require("./job_details");
 var _JobQuotes = require("./job_quotes");
+var _JobStatus = require("./job_status");
 var _Jobs = require("./jobs");
+var _Ratings = require("./ratings");
 var _Roles = require("./roles");
+var _ServiceCategories = require("./service_categories");
 var _ServiceTypes = require("./service_types");
 var _Services = require("./services");
 var _Settings = require("./settings");
@@ -14,36 +19,46 @@ var _Users = require("./users");
 
 function initModels() {
   const sequelize = require("../config/database");
+
   var Addresses = _Addresses(sequelize, DataTypes);
+  var Contractors = _Contractors(sequelize, DataTypes);
+  var Contracts = _Contracts(sequelize, DataTypes);
   var HomescreenSections = _HomescreenSections(sequelize, DataTypes);
   var JobAssigned = _JobAssigned(sequelize, DataTypes);
   var JobAttachments = _JobAttachments(sequelize, DataTypes);
   var JobDetails = _JobDetails(sequelize, DataTypes);
   var JobQuotes = _JobQuotes(sequelize, DataTypes);
+  var JobStatus = _JobStatus(sequelize, DataTypes);
   var Jobs = _Jobs(sequelize, DataTypes);
+  var Ratings = _Ratings(sequelize, DataTypes);
   var Roles = _Roles(sequelize, DataTypes);
+  var ServiceCategories = _ServiceCategories(sequelize, DataTypes);
   var ServiceTypes = _ServiceTypes(sequelize, DataTypes);
   var Services = _Services(sequelize, DataTypes);
   var Settings = _Settings(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
 
-
-  ///Job Associations
+    ///Job Associations
+  Jobs.belongsTo(Services, {foreignKey: "serviceId"})
   Jobs.belongsTo(Users, {foreignKey: "userId"})
   Jobs.hasOne(JobDetails, {foreignKey: "jobId"})
   Jobs.hasMany(JobAttachments, {foreignKey: "jobId"})
   Jobs.hasMany(JobQuotes, {foreignKey: "jobId"})
 
-
   return {
     Addresses,
+    Contractors,
+    Contracts,
     HomescreenSections,
     JobAssigned,
     JobAttachments,
     JobDetails,
     JobQuotes,
+    JobStatus,
     Jobs,
+    Ratings,
     Roles,
+    ServiceCategories,
     ServiceTypes,
     Services,
     Settings,

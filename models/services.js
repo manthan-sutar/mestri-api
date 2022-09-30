@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Services', {
+  return sequelize.define('services', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -11,8 +11,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    serviceCategory: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     name: {
       type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    icon: {
+      type: DataTypes.TEXT,
       allowNull: false
     }
   }, {

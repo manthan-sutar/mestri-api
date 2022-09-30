@@ -88,6 +88,9 @@ router.get("/:userId", async (req, res) => {
                     },
                     {
                         model: models.JobQuotes
+                    },
+                    {
+                        model: models.Services
                     }
                 ],
             }

@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    serviceTypeId: {
+    serviceId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
