@@ -87,13 +87,13 @@ router.get("/:userId", async (req, res) => {
                     },
                     {
                         model: models.JobDetails,
-                        attributes: ["id"]
                     },
                     {
                         model: models.JobAttachments
                     },
                     {
-                        model: models.JobQuotes
+                        model: models.JobQuotes,
+                        attributes: ["id"]
                     },
                     {
                         model: models.Services,
