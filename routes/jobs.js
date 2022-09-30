@@ -82,9 +82,6 @@ router.get("/:userId", async (req, res) => {
                 attributes: ["id"],
                 include: [
                     {
-                        model: models.Users
-                    },
-                    {
                         model: models.JobStatus,
                         attributes: ["name"],
                     },
