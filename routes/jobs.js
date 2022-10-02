@@ -93,7 +93,8 @@ router.get("/:userId", async (req, res) => {
                     },
                     {
                         model: models.JobQuotes,
-                        attributes: ["id"]
+                        attributes: ["id"],
+
                     },
                     {
                         model: models.Services,
@@ -119,31 +120,6 @@ router.get("/:userId", async (req, res) => {
 })
 
 
-
-router.get("/quotes/:jobId", async (req, res) => {
-    const jobId = req.params.jobId
-    try {
-        const jobs = await models.JobQuotes.findAll({
-            where:{
-                jobId: jobId
-            },
-            include: [
-                {
-                    model: models.Users,
-                    include: [
-                        {
-                            model: models.Roles,
-                            attributes: ["type"]
-                        }
-                    ]
-                }
-            ]
-        })
-        res.json(jobs);
-    } catch (error) {
-        res.json(error.toString())
-    }
-})
 
 module.exports = router;
 

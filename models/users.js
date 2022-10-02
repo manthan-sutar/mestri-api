@@ -9,7 +9,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'roles',
+        key: 'id'
+      }
     },
     username: {
       type: DataTypes.STRING(255),
@@ -54,9 +58,6 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'users',
     timestamps: true,
-    defaultScope: {
-        attributes: { exclude: ['password','createdAt','updatedAt'] },
-    },
     indexes: [
       {
         name: "PRIMARY",
@@ -72,6 +73,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "username" },
+        ]
+      },
+      {
+        name: "roleId",
+        using: "BTREE",
+        fields: [
+          { name: "roleId" },
         ]
       },
     ]

@@ -4,8 +4,10 @@ var _Contractors = require("./contractors");
 var _Contracts = require("./contracts");
 var _HomescreenSections = require("./homescreen_sections");
 var _JobAssigned = require("./job_assigned");
+var _JobAssignedStatus = require("./job_assigned_status");
 var _JobAttachments = require("./job_attachments");
 var _JobDetails = require("./job_details");
+var _JobQuoteStatus = require("./job_quote_status");
 var _JobQuotes = require("./job_quotes");
 var _JobStatus = require("./job_status");
 var _Jobs = require("./jobs");
@@ -25,8 +27,10 @@ function initModels() {
   var Contracts = _Contracts(sequelize, DataTypes);
   var HomescreenSections = _HomescreenSections(sequelize, DataTypes);
   var JobAssigned = _JobAssigned(sequelize, DataTypes);
+  var JobAssignedStatus = _JobAssignedStatus(sequelize, DataTypes);
   var JobAttachments = _JobAttachments(sequelize, DataTypes);
   var JobDetails = _JobDetails(sequelize, DataTypes);
+  var JobQuoteStatus = _JobQuoteStatus(sequelize, DataTypes);
   var JobQuotes = _JobQuotes(sequelize, DataTypes);
   var JobStatus = _JobStatus(sequelize, DataTypes);
   var Jobs = _Jobs(sequelize, DataTypes);
@@ -38,22 +42,40 @@ function initModels() {
   var Settings = _Settings(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
 
- ///Job Associations
- Jobs.belongsTo(Services, {foreignKey: "serviceId"})
- Services.belongsTo(ServiceTypes,{foreignKey: "serviceTypeId"})
- Services.belongsTo(ServiceCategories,{foreignKey: "serviceCategoryId"})
-
-
- Jobs.belongsTo(Users, {foreignKey: "userId"})
- JobQuotes.belongsTo(Users, {foreignKey: "quoterId"})
-
- Jobs.belongsTo(JobStatus, {foreignKey: "statusId"})
- Jobs.hasOne(JobDetails, {foreignKey: "jobId"})
- Jobs.hasMany(JobAttachments, {foreignKey: "jobId"})
- Jobs.hasMany(JobQuotes, {foreignKey: "jobId"})
- Users.belongsTo(Roles, {foreignKey: "roleId"})
-
-//  Users.belongsToMany(JobQuotes, { through: ProjectMembers})
+  JobDetails.belongsTo(Addresses, { foreignKey: "addressId"});
+  Addresses.hasMany(JobDetails, { foreignKey: "addressId"});
+  Ratings.belongsTo(Contractors, { foreignKey: "contractorId"});
+  Contractors.hasMany(Ratings, { foreignKey: "contractorId"});
+  JobAssigned.belongsTo(JobAssignedStatus, { foreignKey: "statusId"});
+  JobAssignedStatus.hasMany(JobAssigned, { foreignKey: "statusId"});
+  JobQuotes.belongsTo(JobQuoteStatus, { foreignKey: "statusId"});
+  JobQuoteStatus.hasMany(JobQuotes, { foreignKey: "statusId"});
+  Jobs.belongsTo(JobStatus, { foreignKey: "statusId"});
+  JobStatus.hasMany(Jobs, { foreignKey: "statusId"});
+  JobAssigned.belongsTo(Jobs, { foreignKey: "jobId"});
+  Jobs.hasMany(JobAssigned, { foreignKey: "jobId"});
+  JobAttachments.belongsTo(Jobs, { foreignKey: "jobId"});
+  Jobs.hasMany(JobAttachments, { foreignKey: "jobId"});
+  JobDetails.belongsTo(Jobs, { foreignKey: "jobId"});
+  Jobs.hasMany(JobDetails, { foreignKey: "jobId"});
+  JobQuotes.belongsTo(Jobs, { foreignKey: "jobId"});
+  Jobs.hasMany(JobQuotes, { foreignKey: "jobId"});
+  Ratings.belongsTo(Jobs, { foreignKey: "jobId"});
+  Jobs.hasMany(Ratings, { foreignKey: "jobId"});
+  Users.belongsTo(Roles, { foreignKey: "roleId"});
+  Roles.hasMany(Users, { foreignKey: "roleId"});
+  Services.belongsTo(ServiceCategories, { foreignKey: "serviceCategoryId"});
+  ServiceCategories.hasMany(Services, { foreignKey: "serviceCategoryId"});
+  Services.belongsTo(ServiceTypes, { foreignKey: "serviceTypeId"});
+  ServiceTypes.hasMany(Services, { foreignKey: "serviceTypeId"});
+  Jobs.belongsTo(Services, { foreignKey: "serviceId"});
+  Services.hasMany(Jobs, { foreignKey: "serviceId"});
+  JobQuotes.belongsTo(Users, { foreignKey: "quoterId"});
+  Users.hasMany(JobQuotes, {foreignKey: "quoterId"});
+  Jobs.belongsTo(Users, { foreignKey: "userId"});
+  Users.hasMany(Jobs, { foreignKey: "userId"});
+  Ratings.belongsTo(Users, { foreignKey: "userId"});
+  Users.hasMany(Ratings, { foreignKey: "userId"});
 
   return {
     Addresses,
@@ -61,8 +83,10 @@ function initModels() {
     Contracts,
     HomescreenSections,
     JobAssigned,
+    JobAssignedStatus,
     JobAttachments,
     JobDetails,
+    JobQuoteStatus,
     JobQuotes,
     JobStatus,
     Jobs,

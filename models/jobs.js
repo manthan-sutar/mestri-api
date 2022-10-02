@@ -9,15 +9,27 @@ module.exports = function(sequelize, DataTypes) {
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     },
     serviceId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'services',
+        key: 'id'
+      }
     },
     statusId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'job_status',
+        key: 'id'
+      }
     }
   }, {
     sequelize,
@@ -30,6 +42,27 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "statusId",
+        using: "BTREE",
+        fields: [
+          { name: "statusId" },
+        ]
+      },
+      {
+        name: "serviceId",
+        using: "BTREE",
+        fields: [
+          { name: "serviceId" },
+        ]
+      },
+      {
+        name: "userId",
+        using: "BTREE",
+        fields: [
+          { name: "userId" },
         ]
       },
     ]

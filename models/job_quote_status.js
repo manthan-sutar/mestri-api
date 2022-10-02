@@ -1,27 +1,19 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('jobAttachments', {
+  return sequelize.define('jobQuoteStatus', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    jobId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'jobs',
-        key: 'id'
-      }
-    },
-    file: {
-      type: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING(255),
       allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'job_attachments',
+    tableName: 'job_quote_status',
     timestamps: false,
     indexes: [
       {
@@ -30,13 +22,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
-        ]
-      },
-      {
-        name: "jobId",
-        using: "BTREE",
-        fields: [
-          { name: "jobId" },
         ]
       },
     ]

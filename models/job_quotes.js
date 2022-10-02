@@ -9,11 +9,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     jobId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'jobs',
+        key: 'id'
+      }
     },
     quoterId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     },
     contractId: {
       type: DataTypes.INTEGER,
@@ -27,9 +35,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    status: {
+    statusId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'job_quote_status',
+        key: 'id'
+      }
     }
   }, {
     sequelize,
@@ -42,6 +54,34 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "statusId",
+        using: "BTREE",
+        fields: [
+          { name: "statusId" },
+        ]
+      },
+      {
+        name: "jobId",
+        using: "BTREE",
+        fields: [
+          { name: "jobId" },
+        ]
+      },
+      {
+        name: "quoterId",
+        using: "BTREE",
+        fields: [
+          { name: "quoterId" },
+        ]
+      },
+      {
+        name: "contractId",
+        using: "BTREE",
+        fields: [
+          { name: "contractId" },
         ]
       },
     ]

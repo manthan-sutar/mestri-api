@@ -51,7 +51,7 @@ app.use('/settings',appSettingRoutes)
 app.use('/feeds',feedRoutes)
 
 app.use('/jobs',jobRoutes)
-app.use('/quotes',quoteRoutes)
+app.use('/jobs/quotes',quoteRoutes)
 
 
 wss.on('listening', () => {

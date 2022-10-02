@@ -9,11 +9,27 @@ module.exports = function(sequelize, DataTypes) {
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     },
     jobId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'jobs',
+        key: 'id'
+      }
+    },
+    contractorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'contractors',
+        key: 'id'
+      }
     },
     rating: {
       type: DataTypes.DOUBLE,
@@ -34,6 +50,27 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "userId",
+        using: "BTREE",
+        fields: [
+          { name: "userId" },
+        ]
+      },
+      {
+        name: "jobId",
+        using: "BTREE",
+        fields: [
+          { name: "jobId" },
+        ]
+      },
+      {
+        name: "contractorId",
+        using: "BTREE",
+        fields: [
+          { name: "contractorId" },
         ]
       },
     ]
