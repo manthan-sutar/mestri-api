@@ -57,7 +57,7 @@ function initModels() {
   JobAttachments.belongsTo(Jobs, { foreignKey: "jobId"});
   Jobs.hasMany(JobAttachments, { foreignKey: "jobId"});
   JobDetails.belongsTo(Jobs, { foreignKey: "jobId"});
-  Jobs.hasMany(JobDetails, { foreignKey: "jobId"});
+  Jobs.hasOne(JobDetails, { foreignKey: "jobId"});
   JobQuotes.belongsTo(Jobs, { foreignKey: "jobId"});
   Jobs.hasMany(JobQuotes, { foreignKey: "jobId"});
   Ratings.belongsTo(Jobs, { foreignKey: "jobId"});

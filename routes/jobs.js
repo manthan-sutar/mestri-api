@@ -9,7 +9,6 @@ var models = initModels();
 
 const router = express.Router();
 
-
 router.post("/", async (req, res) => {
     const userId = req.body.userId
     const serviceTypeId = req.body.userId

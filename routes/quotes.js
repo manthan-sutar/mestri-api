@@ -1,7 +1,7 @@
 const express = require("express");
 const FileHelper = require("../helpers/FileHelper");
-const fileHelper = new FileHelper()
-const middleware = require('../middlewares/apiTokenVerify')
+const Joi = require('joi');
+const jobStatusHelper = require('../helpers/JobHelper')
 
 var initModels = require("../models/init-models");
 var models = initModels();
@@ -9,10 +9,11 @@ var models = initModels();
 const router = express.Router();
 
 router.get("/:jobId", async (req, res) => {
+   
     const jobId = req.params.jobId
     try {
         const jobs = await models.JobQuotes.findAll({
-            where:{
+            where: {
                 jobId: jobId
             },
             include: [
@@ -79,14 +80,15 @@ router.get("/:userId", async (req, res) => {
     }
 })
 
-router.post("/accept",async (req, res) => {
+router.post("/accept", async (req, res) => {
     try {
-        const newJobAssigned = await models.JobAssigned.create(
+        await models.JobAssigned.create(
             req.body
         )
-        res.json(newJobAssigned);
+        jobStatusHelper.updateJobStatus.complete()
+        res.json({"message": "Accepted Successfully"})
     } catch (error) {
-        res.json(error.toString())
+        res.json(error.toString()).status(400)
     }
 })
 
