@@ -1,10 +1,12 @@
 const express = require("express");
 const FileHelper = require("../helpers/FileHelper");
 const fileHelper = new FileHelper()
-
+const jobStatusHelper = require('../helpers/JobHelper')
+const socketClient = require('socket.io-client');
 const { Sequelize } = require('sequelize');
 
 var initModels = require("../models/init-models");
+const constants = require("../helpers/constants");
 var models = initModels();
 
 const router = express.Router();
@@ -122,11 +124,31 @@ router.get("/:userId", async (req, res) => {
 
 router.post("/update-status", async (req, res) => {
     const jobId = req.body.jobId;
-    const statusId = req.body.statusId;
+    const status = req.body.status;
     try {
-        
+        switch (status) {
+            case "ASSIGNED":  await jobStatusHelper.updateJobStatus.assigned(jobId)
+                break;
+            case "PENDING":  await jobStatusHelper.updateJobStatus.pending(jobId)
+                break;
+            case "CANCELED":  await jobStatusHelper.updateJobStatus.canceled(jobId)
+                break;
+            case "COMPLETED":  await jobStatusHelper.updateJobStatus.complete(jobId)
+                break;
+            case "INPROGRESS":  await jobStatusHelper.updateJobStatus.inProgress(jobId)
+                break;
+            case "FAILED":  await jobStatusHelper.updateJobStatus.failed(jobId)
+                break;
+        }
+        const socket = socketClient(constants.socket_url)
+        const response = {
+            jobId: jobId,
+            status: status
+        }
+        socket.emit("jobs", response);
+        res.send("Success")
     } catch (error) {
-        
+        res.send(error.toString())
     }
 });
 

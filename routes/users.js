@@ -1,5 +1,6 @@
 const express = require("express");
-const socketClient = require('socket.io-client')
+const socketClient = require('socket.io-client');
+const constants = require("../helpers/constants");
 var initModels = require("../models/init-models");
 var models = initModels();
 const router = express.Router();
@@ -7,7 +8,7 @@ const router = express.Router();
 router.post("/enter", async (req, res) => {
     const userId = req.body.userId;
     try {
-        const socket = socketClient("http://192.168.1.7:3000")
+        const socket = socketClient(constants.socket_url)
         socket.emit("enter", userId);
         res.send("Success")
     } catch (error) {

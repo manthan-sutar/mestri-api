@@ -23,5 +23,8 @@ module.exports = {
         canceled: async (jobId) => {
             await updateJobStatus(jobId, 7)
         },
+        pending: async (jobId) => {
+            await updateJobStatus(jobId, 1)
+        },
     }
 }

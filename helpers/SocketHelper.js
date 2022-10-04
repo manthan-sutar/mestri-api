@@ -9,9 +9,15 @@ class SocketHelper {
         io.on("connection", (socket)=>{
             console.log("User Entered");
             socket.on("enter", (data) => socket.broadcast.emit("enter",data));
+            socket.on("jobs", (data) => {
+                console.log(data);
+                socket.broadcast.emit("jobs",data)
+            });
         })
     }
 }
+
+
 
 
 module.exports = SocketHelper
