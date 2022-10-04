@@ -9,7 +9,7 @@ var models = initModels();
 const router = express.Router();
 
 router.get("/:jobId", async (req, res) => {
-   
+
     const jobId = req.params.jobId
     try {
         const jobs = await models.JobQuotes.findAll({
@@ -81,12 +81,28 @@ router.get("/:userId", async (req, res) => {
 })
 
 router.post("/accept", async (req, res) => {
+    const jobId = req.body.jobId
     try {
         await models.JobAssigned.create(
             req.body
         )
-        jobStatusHelper.updateJobStatus.complete()
-        res.json({"message": "Accepted Successfully"})
+        await jobStatusHelper.updateJobStatus.assigned(jobId)
+        const job = await models.Jobs.findOne({
+            where: {
+                id: jobId
+            },
+            include: [
+                {
+                    model: models.JobStatus,
+                    attributes: ["name"],
+                },
+            ]
+        })
+        const response = {
+            "message": "Accepted Successfully",
+            "data": job
+        }
+        res.json(response)
     } catch (error) {
         res.json(error.toString()).status(400)
     }
