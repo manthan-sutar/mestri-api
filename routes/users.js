@@ -2,7 +2,6 @@ const express = require("express");
 const socketClient = require('socket.io-client')
 var initModels = require("../models/init-models");
 var models = initModels();
-
 const router = express.Router();
 
 router.post("/enter", async (req, res) => {
