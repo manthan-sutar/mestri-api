@@ -7,7 +7,8 @@ class SocketHelper {
         })
 
         io.on("connection", (socket)=>{
-            socket.on("enter", (data) => socket.id = data);
+            console.log("User Entered");
+            socket.on("enter", (data) => socket.broadcast.emit("enter",data));
         })
     }
 }

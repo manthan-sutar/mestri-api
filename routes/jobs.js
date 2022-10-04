@@ -120,5 +120,16 @@ router.get("/:userId", async (req, res) => {
 
 
 
+router.post("/update-status", async (req, res) => {
+    const jobId = req.body.jobId;
+    const statusId = req.body.statusId;
+    try {
+        
+    } catch (error) {
+        
+    }
+});
+
+
 module.exports = router;
 
