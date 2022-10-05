@@ -43,13 +43,13 @@ const quoteRoutes = require('./routes/quotes');
 app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
 app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
 app.use(expressCrudRouter.crud('/services_type', sequelizeCrud.default(models.ServiceTypes)))
+app.use(expressCrudRouter.crud('/services_categories', sequelizeCrud.default(models.ServiceCategories)))
 app.use(expressCrudRouter.crud('/job_quotes', sequelizeCrud.default(models.JobQuotes)))
 app.use(expressCrudRouter.crud('/homescreen_sections', sequelizeCrud.default(models.HomescreenSections)))
 
 app.use('/users', userRoutes)
 app.use('/settings', appSettingRoutes)
 app.use('/feeds', feedRoutes)
-
 app.use('/jobs', jobRoutes)
 app.use('/jobs/quotes', quoteRoutes)
 
