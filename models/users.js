@@ -20,6 +20,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: "username"
     },
+    firstName: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    lastName: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    profilePicture: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
     loginType: {
       type: DataTypes.STRING(30),
       allowNull: false

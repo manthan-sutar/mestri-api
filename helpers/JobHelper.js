@@ -8,8 +8,8 @@ async function updateJobStatus(jobId, statusId) {
 
 module.exports = {
     updateJobStatus: {
-        complete: async (jobId) => {
-            await updateJobStatus(jobId, 5)
+        pending: async (jobId) => {
+            await updateJobStatus(jobId, 1)
         },
         assigned: async (jobId) => {
             await updateJobStatus(jobId, 3)
@@ -17,14 +17,14 @@ module.exports = {
         inProgress: async (jobId) => {
             await updateJobStatus(jobId, 4)
         },
+        complete: async (jobId) => {
+            await updateJobStatus(jobId, 5)
+        },
         failed: async (jobId) => {
             await updateJobStatus(jobId, 6)
         },
         canceled: async (jobId) => {
             await updateJobStatus(jobId, 7)
-        },
-        pending: async (jobId) => {
-            await updateJobStatus(jobId, 1)
-        },
+        }
     }
 }

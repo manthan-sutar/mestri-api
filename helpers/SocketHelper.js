@@ -5,7 +5,6 @@ class SocketHelper {
                 origin: "*"
             }
         })
-
         io.on("connection", (socket)=>{
             console.log("User Entered");
             socket.on("enter", (data) => socket.broadcast.emit("enter",data));
