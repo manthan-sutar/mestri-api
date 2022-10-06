@@ -39,7 +39,7 @@ const jobRoutes = require('./routes/jobs');
 const feedRoutes = require('./routes/feeds');
 const quoteRoutes = require('./routes/quotes');
 const serviceRoutes = require('./routes/service');
-
+const serviceCategoriesRoutes = require('./routes/serviceCategories');
 
 app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
 // app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
@@ -54,6 +54,8 @@ app.use('/feeds', feedRoutes)
 app.use('/jobs', jobRoutes)
 app.use('/jobs/quotes', quoteRoutes)
 app.use('/services', serviceRoutes)
+app.use('/services_categories/services', serviceCategoriesRoutes)
+
 
 
 server.listen(PORT, () => {

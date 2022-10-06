@@ -26,18 +26,5 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:serviceCategoryId", async (req, res) => {
-    try {
-        const users = await models.Services.findAll({
-            where: {
-                serviceCategoryId: req.params.serviceCategoryId
-            }
-        });
-        res.json(users)
-    } catch (error) {
-        res.json(error.toString())
-    }
-});
-
 
 module.exports = router;
