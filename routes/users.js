@@ -14,7 +14,6 @@ router.post("/enter", async (req, res) => {
     } catch (error) {
         res.send(error)
     }
-
 })
 
 // router.post("/get", async (req, res) => {
