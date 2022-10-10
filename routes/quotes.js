@@ -1,6 +1,4 @@
 const express = require("express");
-const FileHelper = require("../helpers/FileHelper");
-const Joi = require('joi');
 const jobStatusHelper = require('../helpers/JobHelper')
 
 var initModels = require("../models/init-models");
@@ -9,7 +7,6 @@ var models = initModels();
 const router = express.Router();
 
 router.get("/:jobId", async (req, res) => {
-
     const jobId = req.params.jobId
     try {
         const jobs = await models.JobQuotes.findAll({
@@ -18,13 +15,7 @@ router.get("/:jobId", async (req, res) => {
             },
             include: [
                 {
-                    model: models.Users,
-                    include: [
-                        {
-                            model: models.Roles,
-                            attributes: ["type"]
-                        }
-                    ]
+                    model: models.Workers
                 }
             ]
         })
@@ -107,10 +98,6 @@ router.post("/accept", async (req, res) => {
         res.json(error.toString()).status(400)
     }
 })
-
-
-
-
 
 module.exports = router;
 

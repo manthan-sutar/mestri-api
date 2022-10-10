@@ -9,7 +9,6 @@ class SocketHelper {
             console.log("User Entered");
             socket.on("enter", (data) => socket.id = data);
             socket.on("jobs", (data) => {
-                console.log(data);
                 socket.broadcast.emit("jobs",data)
             });
         })

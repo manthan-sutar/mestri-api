@@ -120,8 +120,6 @@ router.get("/:userId", async (req, res) => {
     }
 })
 
-
-
 router.post("/update-status", async (req, res) => {
     const jobId = req.body.jobId;
     const status = req.body.status;
@@ -151,6 +149,68 @@ router.post("/update-status", async (req, res) => {
         res.send(error.toString())
     }
 });
+
+router.get("/available/:workerId", async (req, res) => {
+    const workerId = req.params.workerId
+    const servicesProvided = await models.WorkerServices.findAll({
+        where: {
+            workerId: workerId
+        },
+        attributes: ['serviceId'],
+        group: ['serviceId']
+    })
+    var serviceTypeIds = [];
+    servicesProvided.forEach((e) => {
+        serviceTypeIds.push(e.serviceId);
+    })
+    try {
+        const jobs = await models.Jobs.findAll(
+            {
+                where: {
+                    serviceId: {
+                        [Sequelize.Op.in]: serviceTypeIds
+                    },
+                    statusId: 1
+                },
+                attributes: ["id","createdAt"],
+                include: [
+                    {
+                        model: models.JobStatus,
+                        attributes: ["name"],
+                    },
+                    {
+                        model: models.JobDetails,
+                    },
+                    {
+                        model: models.JobAttachments
+                    },
+                    {
+                        model: models.JobQuotes,
+                        attributes: ["id"],
+
+                    },
+                    {
+                        model: models.Services,
+                        attributes: ["name"],
+                        include: [
+                            {
+                                model: models.ServiceCategories,
+                                attributes: ["name"],
+                            },
+                            {
+                                model: models.ServiceTypes,
+                                attributes: ["name"],
+                            }
+                        ]
+                    },
+                ],
+            }
+        )
+        res.json(jobs);
+    } catch (error) {
+        res.json(error.toString())
+    }
+})
 
 
 module.exports = router;
