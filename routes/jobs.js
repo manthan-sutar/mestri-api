@@ -1,7 +1,7 @@
 const express = require("express");
 const FileHelper = require("../helpers/FileHelper");
 const fileHelper = new FileHelper()
-const jobStatusHelper = require('../helpers/JobHelper')
+const jobsHelper = require('../helpers/JobHelper')
 const socketClient = require('socket.io-client');
 const { Sequelize } = require('sequelize');
 
@@ -9,19 +9,24 @@ var initModels = require("../models/init-models");
 const constants = require("../helpers/constants");
 var models = initModels();
 
+const Op = Sequelize.Op;
+const START = new Date();
+START.setHours(0, 0, 0, 0);
+const NOW = new Date();
+
 const router = express.Router();
 
 router.post("/", async (req, res) => {
     const userId = req.body.userId
-    const serviceTypeId = req.body.userId
+    const serviceId = req.body.serviceId
     const isAttachmentExist = req.body.attachments.length > 0 ? true : false;
 
     const job = {
         userId: userId,
-        serviceTypeId: serviceTypeId
+        serviceId: serviceId
     }
 
-    var newJobId;
+    var newJobId
 
     try {
         //Create New Job
@@ -59,7 +64,7 @@ router.post("/", async (req, res) => {
         res.send("Success");
 
     } catch (error) {
-        const newCreatedJob = await models.Jobs.find(
+        const newCreatedJob = await models.Jobs.findOne(
             {
                 where: {
                     id: newJobId
@@ -67,53 +72,31 @@ router.post("/", async (req, res) => {
             }
         )
         await newCreatedJob.destroy()
-        res.send(error.toString())
-    }
 
+    }
 });
 
 router.get("/:userId", async (req, res) => {
     const userId = req.params.userId
     try {
-        const jobs = await models.Jobs.findAll(
-            {
-                where: {
-                    userId: userId
-                },
-                attributes: ["id","createdAt"],
-                include: [
-                    {
-                        model: models.JobStatus,
-                        attributes: ["name"],
-                    },
-                    {
-                        model: models.JobDetails,
-                    },
-                    {
-                        model: models.JobAttachments
-                    },
-                    {
-                        model: models.JobQuotes,
-                        attributes: ["id"],
+        const jobs = await jobsHelper.getJobs({
+            userId: userId
+        })
+        res.json(jobs);
+    } catch (error) {
+        res.json(error.toString())
+    }
+})
 
-                    },
-                    {
-                        model: models.Services,
-                        attributes: ["name"],
-                        include: [
-                            {
-                                model: models.ServiceCategories,
-                                attributes: ["name"],
-                            },
-                            {
-                                model: models.ServiceTypes,
-                                attributes: ["name"],
-                            }
-                        ]
-                    },
-                ],
-            }
-        )
+router.get("/today/:userId", async (req, res) => {
+    const userId = req.params.userId
+    try {
+        const jobs = await jobsHelper.getJobs({
+            userId: userId,
+            createdAt: {
+                [Op.between]: [START.toISOString(), NOW.toISOString()]
+            },
+        })
         res.json(jobs);
     } catch (error) {
         res.json(error.toString())
@@ -125,17 +108,17 @@ router.post("/update-status", async (req, res) => {
     const status = req.body.status;
     try {
         switch (status) {
-            case "ASSIGNED":  await jobStatusHelper.updateJobStatus.assigned(jobId)
+            case "ASSIGNED": await jobsHelper.updateJobStatus.assigned(jobId)
                 break;
-            case "PENDING":  await jobStatusHelper.updateJobStatus.pending(jobId)
+            case "PENDING": await jobsHelper.updateJobStatus.pending(jobId)
                 break;
-            case "CANCELED":  await jobStatusHelper.updateJobStatus.canceled(jobId)
+            case "CANCELED": await jobsHelper.updateJobStatus.canceled(jobId)
                 break;
-            case "COMPLETED":  await jobStatusHelper.updateJobStatus.complete(jobId)
+            case "COMPLETED": await jobsHelper.updateJobStatus.complete(jobId)
                 break;
-            case "INPROGRESS":  await jobStatusHelper.updateJobStatus.inProgress(jobId)
+            case "INPROGRESS": await jobsHelper.updateJobStatus.inProgress(jobId)
                 break;
-            case "FAILED":  await jobStatusHelper.updateJobStatus.failed(jobId)
+            case "FAILED": await jobsHelper.updateJobStatus.failed(jobId)
                 break;
         }
         const socket = socketClient(constants.socket_url)
@@ -164,53 +147,20 @@ router.get("/available/:workerId", async (req, res) => {
         serviceTypeIds.push(e.serviceId);
     })
     try {
-        const jobs = await models.Jobs.findAll(
-            {
-                where: {
-                    serviceId: {
-                        [Sequelize.Op.in]: serviceTypeIds
-                    },
-                    statusId: 1
-                },
-                attributes: ["id","createdAt"],
-                include: [
-                    {
-                        model: models.JobStatus,
-                        attributes: ["name"],
-                    },
-                    {
-                        model: models.JobDetails,
-                    },
-                    {
-                        model: models.JobAttachments
-                    },
-                    {
-                        model: models.JobQuotes,
-                        attributes: ["id"],
-
-                    },
-                    {
-                        model: models.Services,
-                        attributes: ["name"],
-                        include: [
-                            {
-                                model: models.ServiceCategories,
-                                attributes: ["name"],
-                            },
-                            {
-                                model: models.ServiceTypes,
-                                attributes: ["name"],
-                            }
-                        ]
-                    },
-                ],
-            }
-        )
+        const jobs = await jobsHelper.getJobs({
+            serviceId: {
+                [Sequelize.Op.in]: serviceTypeIds
+            },
+            statusId: 1
+        })
         res.json(jobs);
     } catch (error) {
         res.json(error.toString())
     }
 })
+
+
+
 
 
 module.exports = router;

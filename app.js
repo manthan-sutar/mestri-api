@@ -39,7 +39,7 @@ const appSettingRoutes = require('./routes/app_settings')
 const jobRoutes = require('./routes/jobs');
 const feedRoutes = require('./routes/feeds');
 const quoteRoutes = require('./routes/quotes');
-// const serviceRoutes = require('./routes/service');
+const serviceRoutes = require('./routes/service');
 const serviceCategoriesRoutes = require('./routes/serviceCategories');
 
 
@@ -54,8 +54,10 @@ app.use(expressCrudRouter.crud('/contractor_services', sequelizeCrud.default(mod
 app.use(expressCrudRouter.crud('/workers', sequelizeCrud.default(models.Workers)))
 app.use(expressCrudRouter.crud('/contractors', sequelizeCrud.default(models.Contractors)))
 
+
 app.use('/users', userRoutes)
 app.use('/settings', appSettingRoutes)
+app.use('/service', serviceRoutes)
 app.use('/feeds', feedRoutes)
 app.use('/jobs', jobRoutes)
 app.use('/jobs/quotes', quoteRoutes)

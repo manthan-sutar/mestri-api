@@ -26,6 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     statusId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 1,
       references: {
         model: 'job_status',
         key: 'id'

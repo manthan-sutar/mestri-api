@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'workers',
         key: 'id'
       }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, {
     sequelize,
