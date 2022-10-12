@@ -1,22 +1,30 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('contractors', {
+  return sequelize.define('workers', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    username: {
-      type: DataTypes.STRING(255),
+    contactorId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'contractors',
+        key: 'id'
+      }
+    },
+    firstName: {
+      type: DataTypes.STRING(244),
       allowNull: false
     },
-    companyName: {
+    lastName: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
     email: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(244),
       allowNull: false
     },
     countryCode: {
@@ -27,11 +35,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: 0
-    },
     password: {
       type: DataTypes.STRING(255),
       allowNull: false
@@ -40,18 +43,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    isVerified: {
+    isActive: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    userStatus: {
-      type: DataTypes.STRING(100),
       allowNull: false,
-      defaultValue: "INACTIVE"
+      defaultValue: 1
     }
   }, {
     sequelize,
-    tableName: 'contractors',
+    tableName: 'workers',
     timestamps: true,
     indexes: [
       {
@@ -60,6 +59,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "contactorId",
+        using: "BTREE",
+        fields: [
+          { name: "contactorId" },
         ]
       },
     ]

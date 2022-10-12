@@ -1,19 +1,11 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('jobs', {
+  return sequelize.define('contractorServices', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id'
-      }
     },
     serviceId: {
       type: DataTypes.INTEGER,
@@ -23,19 +15,18 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    statusId: {
+    contractorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
       references: {
-        model: 'job_status',
+        model: 'contractors',
         key: 'id'
       }
     }
   }, {
     sequelize,
-    tableName: 'jobs',
-    timestamps: true,
+    tableName: 'contractor_services',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
@@ -46,24 +37,18 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "statusId",
-        using: "BTREE",
-        fields: [
-          { name: "statusId" },
-        ]
-      },
-      {
         name: "serviceId",
         using: "BTREE",
         fields: [
           { name: "serviceId" },
+          { name: "contractorId" },
         ]
       },
       {
-        name: "userId",
+        name: "contractorId",
         using: "BTREE",
         fields: [
-          { name: "userId" },
+          { name: "contractorId" },
         ]
       },
     ]

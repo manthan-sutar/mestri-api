@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const SocketHelper = require('./helpers/SocketHelper');
 const app = express();
+const { Op } = require('sequelize')
 
 const PORT = process.env.PORT || 3000;
 var cors = require('cors')
@@ -40,26 +41,37 @@ const feedRoutes = require('./routes/feeds');
 const quoteRoutes = require('./routes/quotes');
 const serviceRoutes = require('./routes/service');
 const serviceCategoriesRoutes = require('./routes/serviceCategories');
+const workerRoutes = require('./routes/worker');
+// const countryRoutes = require('./routes/countries');
+
 
 app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
-// app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
+app.use(expressCrudRouter.crud('/services', sequelizeCrud.default(models.Services)))
 app.use(expressCrudRouter.crud('/services_type', sequelizeCrud.default(models.ServiceTypes)))
 app.use(expressCrudRouter.crud('/services_categories', sequelizeCrud.default(models.ServiceCategories)))
 app.use(expressCrudRouter.crud('/job_quotes', sequelizeCrud.default(models.JobQuotes)))
 app.use(expressCrudRouter.crud('/homescreen_sections', sequelizeCrud.default(models.HomescreenSections)))
+app.use(expressCrudRouter.crud('/worker_services', sequelizeCrud.default(models.WorkerServices)))
+app.use(expressCrudRouter.crud('/contractor_services', sequelizeCrud.default(models.ContractorServices)))
+app.use(expressCrudRouter.crud('/workers', sequelizeCrud.default(models.Workers)))
+app.use(expressCrudRouter.crud('/contractors', sequelizeCrud.default(models.Contractors)))
+app.use(expressCrudRouter.crud('/states', sequelizeCrud.default(models.States)))
+app.use(expressCrudRouter.crud('/countries', sequelizeCrud.default(models.Countries)))
+app.use(expressCrudRouter.crud('/cities', sequelizeCrud.default(models.Cities)))
+
 
 app.use('/users', userRoutes)
 app.use('/settings', appSettingRoutes)
+app.use('/service', serviceRoutes)
 app.use('/feeds', feedRoutes)
 app.use('/jobs', jobRoutes)
 app.use('/jobs/quotes', quoteRoutes)
-app.use('/services', serviceRoutes)
 app.use('/services_categories/services', serviceCategoriesRoutes)
-
-
+app.use('/worker', workerRoutes)
+// app.use('/countries', countryRoutes)
 
 server.listen(PORT, () => {
-  console.log("Server Running on port "+PORT)
+  console.log("Server Running on port " + PORT)
 })
 
 const socketHelper = new SocketHelper()

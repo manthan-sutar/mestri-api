@@ -1,21 +1,21 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('jobQuotes', {
+  return sequelize.define('workerServices', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    jobId: {
+    serviceId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'jobs',
+        model: 'services',
         key: 'id'
       }
     },
-    quoterId: {
+    workerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -23,30 +23,14 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    contractId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    estimatedAmount: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
     description: {
       type: DataTypes.TEXT,
       allowNull: false
-    },
-    statusId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'job_quote_status',
-        key: 'id'
-      }
     }
   }, {
     sequelize,
-    tableName: 'job_quotes',
-    timestamps: true,
+    tableName: 'worker_services',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
@@ -57,31 +41,18 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "statusId",
+        name: "serviceId",
         using: "BTREE",
         fields: [
-          { name: "statusId" },
+          { name: "serviceId" },
+          { name: "workerId" },
         ]
       },
       {
-        name: "jobId",
+        name: "workerId",
         using: "BTREE",
         fields: [
-          { name: "jobId" },
-        ]
-      },
-      {
-        name: "quoterId",
-        using: "BTREE",
-        fields: [
-          { name: "quoterId" },
-        ]
-      },
-      {
-        name: "contractId",
-        using: "BTREE",
-        fields: [
-          { name: "contractId" },
+          { name: "workerId" },
         ]
       },
     ]

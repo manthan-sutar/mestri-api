@@ -26,5 +26,48 @@ module.exports = {
         canceled: async (jobId) => {
             await updateJobStatus(jobId, 7)
         }
-    }
+    },
+    getJobs: async (where) => getJobs(where)
+}
+
+
+
+async function getJobs(where){
+    return await models.Jobs.findAll(
+        {
+            where: where,
+            attributes: ["id","createdAt"],
+            include: [
+                {
+                    model: models.JobStatus,
+                    attributes: ["name"],
+                },
+                {
+                    model: models.JobDetails,
+                },
+                {
+                    model: models.JobAttachments
+                },
+                {
+                    model: models.JobQuotes,
+                    attributes: ["id"],
+
+                },
+                {
+                    model: models.Services,
+                    attributes: ["name"],
+                    include: [
+                        {
+                            model: models.ServiceCategories,
+                            attributes: ["name"],
+                        },
+                        {
+                            model: models.ServiceTypes,
+                            attributes: ["name"],
+                        }
+                    ]
+                },
+            ],
+        }
+    )
 }

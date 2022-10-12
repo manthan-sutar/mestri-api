@@ -1,4 +1,5 @@
 const express = require("express");
+const { Sequelize } = require("../config/database");
 
 var initModels = require("../models/init-models");
 var models = initModels();
@@ -24,6 +25,30 @@ router.get("/", async (req, res) => {
             res.json(error.toString())
         }
     }
+});
+
+
+
+
+router.get("/shortlist/:serviceId", async (req, res) => {
+    const serviceId = req.params.serviceId;
+
+    const serviceOptions = await models.WorkerServices.findAll({
+        where: {
+            serviceId: serviceId
+        },
+        // attributes: [
+        //     [Sequelize.fn("COUNT", Sequelize.col("worker")), "workerCount"]
+        // ],
+        include: [
+            {
+                model: models.Workers
+            }
+        ],
+        
+    })
+
+    res.json(serviceOptions)
 });
 
 
