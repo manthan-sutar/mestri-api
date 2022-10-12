@@ -41,6 +41,8 @@ const feedRoutes = require('./routes/feeds');
 const quoteRoutes = require('./routes/quotes');
 const serviceRoutes = require('./routes/service');
 const serviceCategoriesRoutes = require('./routes/serviceCategories');
+const workerRoutes = require('./routes/worker');
+// const countryRoutes = require('./routes/countries');
 
 
 app.use(expressCrudRouter.crud('/addresses', sequelizeCrud.default(models.Addresses)))
@@ -53,6 +55,9 @@ app.use(expressCrudRouter.crud('/worker_services', sequelizeCrud.default(models.
 app.use(expressCrudRouter.crud('/contractor_services', sequelizeCrud.default(models.ContractorServices)))
 app.use(expressCrudRouter.crud('/workers', sequelizeCrud.default(models.Workers)))
 app.use(expressCrudRouter.crud('/contractors', sequelizeCrud.default(models.Contractors)))
+app.use(expressCrudRouter.crud('/states', sequelizeCrud.default(models.States)))
+app.use(expressCrudRouter.crud('/countries', sequelizeCrud.default(models.Countries)))
+app.use(expressCrudRouter.crud('/cities', sequelizeCrud.default(models.Cities)))
 
 
 app.use('/users', userRoutes)
@@ -62,6 +67,8 @@ app.use('/feeds', feedRoutes)
 app.use('/jobs', jobRoutes)
 app.use('/jobs/quotes', quoteRoutes)
 app.use('/services_categories/services', serviceCategoriesRoutes)
+app.use('/worker', workerRoutes)
+// app.use('/countries', countryRoutes)
 
 server.listen(PORT, () => {
   console.log("Server Running on port " + PORT)
