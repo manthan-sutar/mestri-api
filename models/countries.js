@@ -11,15 +11,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: false
     },
-    // iso3: {
-    //   type: DataTypes.CHAR(3),
-    //   allowNull: true
-    // },
-    // numericCode: {
-    //   type: DataTypes.CHAR(3),
-    //   allowNull: true,
-    //   field: 'numeric_code'
-    // },
+    iso3: {
+      type: DataTypes.CHAR(3),
+      allowNull: true
+    },
+    numericCode: {
+      type: DataTypes.CHAR(3),
+      allowNull: true,
+      field: 'numeric_code'
+    },
     iso2: {
       type: DataTypes.CHAR(2),
       allowNull: true
@@ -94,7 +94,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'countries',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",

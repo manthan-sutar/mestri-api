@@ -90,6 +90,9 @@ router.get("/:userId", async (req, res) => {
 
 router.get("/today/:userId", async (req, res) => {
     const userId = req.params.userId
+
+    res.json(START.toISOString())
+    
     try {
         const jobs = await jobsHelper.getJobs({
             userId: userId,
