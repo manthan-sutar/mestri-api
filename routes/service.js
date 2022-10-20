@@ -8,14 +8,14 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     const query = req.query;
-    if(Object.keys(query).length == 0){
+    if (Object.keys(query).length == 0) {
         try {
             const users = await models.Services.findAll();
             res.json(users)
         } catch (error) {
             res.json(error.toString())
         }
-    }else{
+    } else {
         try {
             const users = await models.Services.findAll({
                 where: query
@@ -29,7 +29,6 @@ router.get("/", async (req, res) => {
 
 
 
-
 router.get("/shortlist/:serviceId", async (req, res) => {
     const serviceId = req.params.serviceId;
 
@@ -37,15 +36,25 @@ router.get("/shortlist/:serviceId", async (req, res) => {
         where: {
             serviceId: serviceId
         },
-        // attributes: [
-        //     [Sequelize.fn("COUNT", Sequelize.col("worker")), "workerCount"]
-        // ],
+        attributes: [
+            [Sequelize.fn("AVG", Sequelize.col("worker.ratings.rating")), "workerRatings",],
+            "description"
+        ],
         include: [
             {
-                model: models.Workers
+                model: models.Workers,
+                include: [
+                    {
+                        model: models.Ratings,
+                        attributes: []
+                    },
+                ]
+            },
+            {
+                model: models.Services,
             }
         ],
-        
+        order: Sequelize.literal('workerRatings DESC')
     })
 
     res.json(serviceOptions)
