@@ -42,6 +42,7 @@ const quoteRoutes = require('./routes/quotes');
 const serviceRoutes = require('./routes/service');
 const serviceCategoriesRoutes = require('./routes/serviceCategories');
 const workerRoutes = require('./routes/worker');
+const authRoutes = require('./routes/auth');
 // const countryRoutes = require('./routes/countries');
 
 
@@ -68,6 +69,7 @@ app.use('/jobs', jobRoutes)
 app.use('/jobs/quotes', quoteRoutes)
 app.use('/services_categories/services', serviceCategoriesRoutes)
 app.use('/worker', workerRoutes)
+app.use('/auth', authRoutes)
 // app.use('/countries', countryRoutes)
 
 server.listen(PORT, () => {

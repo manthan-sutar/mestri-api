@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('jobAssignedStatus', {
+  return sequelize.define('JobAssignedStatus', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,

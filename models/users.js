@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('users', {
+  return sequelize.define('Users', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -17,20 +17,20 @@ module.exports = function(sequelize, DataTypes) {
     },
     username: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       unique: "username"
     },
     firstName: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     lastName: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     profilePicture: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     loginType: {
       type: DataTypes.STRING(30),
@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     countryCode: {
       type: DataTypes.STRING(10),
@@ -63,7 +63,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     isVerified: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: true
     },
     userStatus: {
       type: DataTypes.STRING(100),
