@@ -63,7 +63,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     isVerified: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false,
+      defaultValue: 0
     },
     userStatus: {
       type: DataTypes.STRING(100),

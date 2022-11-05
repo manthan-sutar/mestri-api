@@ -15,20 +15,5 @@ function hashPassword(password) {
 }
 
 async function comparePassword(password, hashedPassword){
-    var isPasswordMatched = false;
-    bcrypt.compare(password, hashedPassword,
-        async function (err, isMatch) {
-            // Comparing the original password to
-            // encrypted password   
-            if (err) {
-                throw console.log(err);
-            }
-            if (isMatch) {
-                isPasswordMatched = true;
-            }
-            if (!isMatch) {
-                isPasswordMatched = false;
-            }
-        })
-    return isPasswordMatched;
+    return await bcrypt.compare(password, hashedPassword)
 }

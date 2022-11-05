@@ -19,7 +19,7 @@ class FileHelper {
             return null;
         }
     }
-
+    
     decodeBase64Image(dataString) {
         var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
             response = {};
