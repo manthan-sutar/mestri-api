@@ -60,7 +60,6 @@ app.use(expressCrudRouter.crud('/states', sequelizeCrud.default(models.States)))
 app.use(expressCrudRouter.crud('/countries', sequelizeCrud.default(models.Countries)))
 app.use(expressCrudRouter.crud('/cities', sequelizeCrud.default(models.Cities)))
 
-
 app.use('/users', userRoutes)
 app.use('/settings', appSettingRoutes)
 app.use('/service', serviceRoutes)
