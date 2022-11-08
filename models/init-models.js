@@ -1,5 +1,9 @@
 var DataTypes = require("sequelize").DataTypes;
 var _Addresses = require("./addresses");
+var _BookingAttachments = require("./booking_attachments");
+var _BookingDetails = require("./booking_details");
+var _BookingQuotes = require("./booking_quotes");
+var _Bookings = require("./bookings");
 var _Cities = require("./cities");
 var _ContractorServices = require("./contractor_services");
 var _Contractors = require("./contractors");
@@ -30,6 +34,10 @@ var _Workers = require("./workers");
 function initModels() {
  const sequelize = require("../config/database");
   var Addresses = _Addresses(sequelize, DataTypes);
+  var BookingAttachments = _BookingAttachments(sequelize, DataTypes);
+  var BookingDetails = _BookingDetails(sequelize, DataTypes);
+  var BookingQuotes = _BookingQuotes(sequelize, DataTypes);
+  var Bookings = _Bookings(sequelize, DataTypes);
   var Cities = _Cities(sequelize, DataTypes);
   var ContractorServices = _ContractorServices(sequelize, DataTypes);
   var Contractors = _Contractors(sequelize, DataTypes);
@@ -59,6 +67,12 @@ function initModels() {
 
   JobDetails.belongsTo(Addresses, { foreignKey: "addressId"});
   Addresses.hasMany(JobDetails, { foreignKey: "addressId"});
+  Bookings.belongsTo(BookingAttachments, { foreignKey: "id"});
+  BookingAttachments.hasOne(Bookings, { foreignKey: "id"});
+  BookingAttachments.belongsTo(Bookings, { foreignKey: "bookingId"});
+  Bookings.hasMany(BookingAttachments, { foreignKey: "bookingId"});
+  BookingDetails.belongsTo(Bookings, { foreignKey: "bookingId"});
+  Bookings.hasMany(BookingDetails, { foreignKey: "bookingId"});
   ContractorServices.belongsTo(Contractors, { foreignKey: "contractorId"});
   Contractors.hasMany(ContractorServices, { foreignKey: "contractorId"});
   FavouriteContractors.belongsTo(Contractors, { foreignKey: "contractorId"});
@@ -120,6 +134,10 @@ function initModels() {
 
   return {
     Addresses,
+    BookingAttachments,
+    BookingDetails,
+    BookingQuotes,
+    Bookings,
     Cities,
     ContractorServices,
     Contractors,
