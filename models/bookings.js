@@ -5,15 +5,19 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'booking_attachments',
-        key: 'bookingId'
-      }
+      primaryKey: true
     },
     workerId: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    workerServiceId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'worker_services',
+        key: 'id'
+      }
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -56,6 +60,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "statusId" },
+        ]
+      },
+      {
+        name: "workerServiceId",
+        using: "BTREE",
+        fields: [
+          { name: "workerServiceId" },
         ]
       },
     ]

@@ -1,5 +1,9 @@
 const express = require("express");
 const { Sequelize } = require("../config/database");
+const sequelize = require("../config/database");
+const { success, failed } = require("../helpers/constants");
+const FileHelper = require("../helpers/FileHelper");
+const fileHelper = new FileHelper()
 
 var initModels = require("../models/init-models");
 var models = initModels();
@@ -59,6 +63,54 @@ router.get("/shortlist/:serviceId", async (req, res) => {
 
     res.json(serviceOptions)
 });
+
+
+router.post("/book", async (req, res) => {
+    const transaction = await sequelize.transaction();
+    try {
+        const isAttachmentExist = req.body.attachments.length > 0 ? true : false;
+        var bookingData = req.body
+        const attachments = bookingData.attachments
+        var bookingDetails = req.body.details
+        //remove extra parameters
+        delete bookingData.attachments
+        delete bookingData.details
+
+        const newBooking = await models.Bookings.create(bookingData, {
+            transaction: transaction
+        })
+
+        const newBookingId = newBooking.id
+        bookingDetails.bookingId = newBookingId;
+        // res.json(bookingDetails)
+        await models.BookingDetails.create(bookingDetails, {
+            transaction: transaction
+        })
+
+
+        if (isAttachmentExist) {
+            attachments.forEach(async element => {
+                const filePath = await fileHelper.uploadBase64Img({
+                    base64String: element,
+                    path: "bookings"
+                })
+                await models.BookingAttachments.create({
+                    bookingId: newBookingId,
+                    file: filePath
+                })
+            });
+        }
+
+        await transaction.commit();
+
+        res.json(success("Service Successfully Booked", attachments))
+
+    } catch (error) {
+        await transaction.rollback();
+        res.send(failed(error.toString()))
+    }
+});
+
 
 
 module.exports = router;

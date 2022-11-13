@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
         });
 
         res.send("Success");
-
+        
     } catch (error) {
         const newCreatedJob = await models.Jobs.findOne(
             {
@@ -72,7 +72,6 @@ router.post("/", async (req, res) => {
             }
         )
         await newCreatedJob.destroy()
-
     }
 });
 
