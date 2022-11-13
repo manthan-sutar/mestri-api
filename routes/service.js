@@ -103,7 +103,7 @@ router.post("/book", async (req, res) => {
 
         await transaction.commit();
 
-        res.json(success("Service Successfully Booked", attachments))
+        res.json(success("Service Successfully Booked", newBooking))
 
     } catch (error) {
         await transaction.rollback();
