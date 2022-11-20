@@ -32,7 +32,6 @@ router.get("/", async (req, res) => {
 });
 
 
-
 router.get("/shortlist/:serviceId", async (req, res) => {
     const serviceId = req.params.serviceId;
 
