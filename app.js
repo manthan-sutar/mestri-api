@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const SocketHelper = require('./helpers/SocketHelper');
 const app = express();
-const { Op } = require('sequelize')
 
 const PORT = process.env.PORT || 3000;
 var cors = require('cors')

@@ -64,6 +64,29 @@ router.get("/shortlist/:serviceId", async (req, res) => {
 });
 
 
+router.get("/booked/:userId", async (req, res) => {
+    try {
+        const bookings = await models.Bookings.findAll({
+            where: {
+                userId: req.params.userId
+            },
+            include: [
+                {
+                    model: models.BookingAttachments,
+                },
+                {
+                    model: models.BookingDetails,
+                }
+            ],
+        })
+        res.json(success("Success", bookings))
+    } catch (error) {
+        res.send(failed(error.toString()))
+    }
+});
+
+
+
 router.post("/book", async (req, res) => {
     const transaction = await sequelize.transaction();
     try {
