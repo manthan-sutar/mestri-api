@@ -76,6 +76,9 @@ router.get("/booked/:userId", async (req, res) => {
                 },
                 {
                     model: models.BookingDetails,
+                },
+                {
+                    model: models.WorkerServices,
                 }
             ],
         })
