@@ -82,7 +82,7 @@ router.get("/booked/:userId", async (req, res) => {
                 }
             ],
         })
-        res.json(success("Success", bookings))
+        res.json(bookings)
     } catch (error) {
         res.send(failed(error.toString()))
     }
